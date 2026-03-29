@@ -2,11 +2,12 @@
 <html>
 
 <head>
-  <title>Kirjautuminen</title>
+  <title>Etusivu</title>
 </head>
 
 <body>
-  {% if session.username %}
+  <h1>Etusivu</h1>
+  {% if session.user_id %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
   </p>
@@ -14,16 +15,35 @@
     <a href="/logout">Kirjaudu ulos</a>
   </p>
   {% else %}
-  <form action="/login" method="post">
+  <p>
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo käyttäjätili</a>
+  </p>
+  {% endif %}
+  
+  <hr />
+  {% for report in reports %}
+  <p>
+    <a href="/report/{{ report.id }}">{{ report.title }}</a>
+    <br />
+    {{ report.total }} viestiä, uusin {{ report.last }}
+  </p>
+  <hr />
+  {% endfor %}
+
+  {% if session.user_id %}
+  <h2>Uusi raportti</h2>
+
+  <form action="/new_report" method="post">
     <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
+      Otsikko:<br />
+      <input type="text" name="title" />
     </p>
     <p>
-      Salasana: <br />
-      <input type="password" name="password" />
+      Viesti:<br />
+      <textarea name="content" rows="5" cols="40"></textarea>
     </p>
-    <input type="submit" value="Kirjaudu" />
+    <input type="submit" value="Lähetä" />
   </form>
   {% endif %}
 </body>

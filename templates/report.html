@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ report.title }}</title>
+</head>
+
+<body>
+  <h1>{{ report.title }}</h1>
+
+  {% if session.user_id %}
+  <h2>Uusi raportti</h2>
+
+  <form action="/new_message" method="post">
+    <p>
+      Viesti:<br />
+      <textarea name="content" rows="5" cols="40"></textarea>
+    </p>
+    <input type="hidden" name="report_id" value="{{ report.id }}" />
+    <input type="submit" value="Lähetä" />
+  </form>
+  <hr />
+  {% endif %}
+
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
+</body>
+
+</html>
