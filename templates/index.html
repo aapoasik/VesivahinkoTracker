@@ -9,29 +9,11 @@
   <h1>Etusivu</h1>
   {% if session.user_id %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Olet kirjautunut nimellä {{ session.user_id }}
   </p>
   <p>
     <a href="/logout">Kirjaudu ulos</a>
   </p>
-  {% else %}
-  <p>
-    <a href="/login">Kirjaudu sisään</a> |
-    <a href="/register">Luo käyttäjätili</a>
-  </p>
-  {% endif %}
-  
-  <hr />
-  {% for report in reports %}
-  <p>
-    <a href="/report/{{ report.id }}">{{ report.title }}</a>
-    <br />
-    {{ report.total }} viestiä, uusin {{ report.last }}
-  </p>
-  <hr />
-  {% endfor %}
-
-  {% if session.user_id %}
   <h2>Uusi raportti</h2>
 
   <form action="/new_report" method="post">
@@ -44,8 +26,23 @@
       <textarea name="content" rows="5" cols="40"></textarea>
     </p>
     <input type="submit" value="Lähetä" />
-  </form>
+  </form>	
+  {% else %}
+  <p>
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo käyttäjätili</a>
+  </p>
   {% endif %}
+  
+  <hr />
+  {% for report in reports %}
+  <p>
+    <a href="/report/{{ report.id }}">{{ report.title }}</a>
+    <br />
+    {{ report.total }} raporttia, uusin {{ report.last }}
+  </p>
+  <hr />
+  {% endfor %}
 </body>
 
 </html>
