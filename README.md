@@ -11,9 +11,15 @@ Käyttäjä pystyy reagoimaan raportteihin asiaankuuluvilla emojeilla.
   
 Sovelluksen käyttöönotto:  
   
-1. Asenna Flask-kirjasto:
+Asenna Flask-kirjasto:
+   ~~~ 
 	$ pip install flask
-2. Luo tietokantaan tarvittavat taulut:
-	$ sqlite3 database.db < schema.sql
-3. Käynnistä sovellus näin:
-	$ flask run
+   ~~~
+Luo tietokantaan tarvittavat taulut:
+   ~~~ 
+  $ sqlite3 database.db < schema.sql
+   ~~~ 
+Käynnistä sovellus näin:
+   ~~~ 
+  $ flask run
+   ~~~ 
