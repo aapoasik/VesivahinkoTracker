@@ -13,6 +13,7 @@ def check_login(username, password):
     if len(result) == 1:
         user_id, password_hash = result[0]
         if check_password_hash(password_hash, password):
+            print(user_id, password_hash)
             return user_id
 
     return None
