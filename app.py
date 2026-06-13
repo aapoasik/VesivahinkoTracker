@@ -22,9 +22,12 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
 
+        if username == "":
+            return "VIRHE: kelvoton käyttäjänimi; käyttäjänimi ei voi olla tyhjä!"
         if password1 != password2:
             return "VIRHE: salasanat eivät täsmää!"
-
+        if password1 == "":
+            return "VIRHE: kelvoton salasana; salasana ei voi olla tyhjä!"
         try:
             users.create_user(username, password1)
             return "Käyttäjätili luotu!"
@@ -45,7 +48,7 @@ def edit_report(report_id):
 
     if request.method == "POST":
         content = request.form["content"]
-        forum.update_report(report["id"], content)
+        forum.update_report(report["report_id"], content)
         return redirect("/report/" + str(report["report_id"]))
 
 @app.route("/new_report", methods=["POST"])
