@@ -8,7 +8,10 @@ def get_reports():
     return db.query(sql)
 
 def get_report(report_id):
-    sql = "SELECT id, content, sent_at, title, user_id FROM Reports WHERE id = ?"
+    sql = """SELECT r.id, r.content, r.sent_at, r.title, r.user_id, u.username
+             FROM Reports r
+             JOIN Users u ON r.user_id = u.id
+             WHERE r.id = ?"""
     return db.query(sql, [report_id])[0]
 
 def get_reactions(report_id):
