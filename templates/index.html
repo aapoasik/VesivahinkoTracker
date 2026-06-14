@@ -9,7 +9,7 @@
   <h1>Etusivu</h1>
   {% if session.user_id %}
   <p>
-    Olet kirjautunut nimellä {{ session.user_id }}
+    Olet kirjautunut nimellä {{ username[0] }}
   </p>
   <p>
     <a href="/logout">Kirjaudu ulos</a>

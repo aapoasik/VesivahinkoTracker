@@ -10,7 +10,12 @@ app.secret_key = config.secret_key
 @app.route("/")
 def index():
     reports = forum.get_reports()
-    return render_template("index.html", reports=reports)
+    try:
+        user_id = session["user_id"]
+        username = users.get_username(user_id)
+        return render_template("index.html", reports=reports, username=username)
+    except KeyError:
+        return render_template("index.html", reports=reports)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

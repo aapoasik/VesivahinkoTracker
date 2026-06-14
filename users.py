@@ -17,3 +17,7 @@ def check_login(username, password):
             return user_id
 
     return None
+
+def get_username(id):
+    sql = "SELECT username FROM users WHERE id = ?"
+    return db.query(sql, [id])[0]
