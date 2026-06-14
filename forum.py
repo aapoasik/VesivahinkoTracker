@@ -23,7 +23,7 @@ def get_reactions(report_id):
         return None
 
 def add_report(title, content, user_id):
-    sql = "INSERT INTO Reports (title, content, user_id) VALUES (?, ?, ?)"
+    sql = "INSERT INTO Reports (title, content, sent_at, user_id) VALUES (?, ?, datetime('now'), ?)"
     db.execute(sql, [title, content, user_id])
     report_id = db.last_insert_id()
     return report_id
