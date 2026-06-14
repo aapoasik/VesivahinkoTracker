@@ -1,9 +1,10 @@
 import db
 
 def get_reports():
-    sql = """SELECT r.id, r.title, COUNT(r.id) total, MAX(r.sent_at) last
+    sql = """SELECT r.id, r.title, u.username, COUNT(r.id) total, MAX(r.sent_at) last
              FROM Reports r
-             GROUP BY r.id
+             LEFT JOIN Users u ON r.user_id = u.id
+             GROUP BY r.id, u.username
              ORDER BY r.id DESC"""
     return db.query(sql)
 
