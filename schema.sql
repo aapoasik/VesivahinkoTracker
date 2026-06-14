@@ -9,6 +9,12 @@ CREATE TABLE Reports (
     content TEXT,
     sent_at TEXT,
     title TEXT,
-    reaction_1 INTEGER,
     user_id INTEGER REFERENCES Users
+    );
+
+CREATE TABLE Reactions (
+    id INTEGER PRIMARY KEY,
+    emoji TEXT,
+    user_id INTEGER REFERENCES Users,
+    report_id INTEGER REFERENCES Reports
     );

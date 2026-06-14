@@ -7,13 +7,38 @@
 
 <body>
   <h1>{{ report.title }}</h1>
-
-  <p>
+    <p>
     {{ report.user_id }}
   </p>
   <p>
     {{ report.content }}
   </p>
+
+  <hr /> 
+  {% for reaction in reactions %}
+  <p>
+    {{ reaction.emoji[0] }} {{ reaction.reaction_count[1] }}
+  <br />
+  </p>
+  <hr />
+  {% endfor %}
+
+  <form action="/new_reaction" method="post">
+    <p>
+      <input type="radio" name="emoji" value="&#127770;" /> &#127770;  
+      <input type="radio" name="emoji" value="&#128051;" /> &#128051;  
+      <input type="radio" name="emoji" value="&#128511;" /> &#128511;  
+      <input type="radio" name="emoji" value="&#128557;" /> &#128557;  
+      <input type="radio" name="emoji" value="&#129760;" /> &#129760;  
+    </p>
+    <p>
+      <input type="hidden" name="report_id" value="{{ report.id }}" />
+      <input type="submit" value="reagoi" />
+    </p>
+  </form>
+  <br />
+
+  <p>
     <a href="/">Etusivulle</a>
   </p>
 </body>

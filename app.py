@@ -37,7 +37,8 @@ def register():
 @app.route("/report/<int:report_id>")
 def show_report(report_id):
     report = forum.get_report(report_id)
-    return render_template("report.html", report=report)
+    reactions = forum.get_reactions(report_id)
+    return render_template("report.html", report=report, reactions=reactions)
 
 @app.route("/edit/<int:report_id>", methods=["GET", "POST"])
 def edit_report(report_id):
@@ -58,6 +59,15 @@ def new_report():
     user_id = session["user_id"]
 
     report_id = forum.add_report(title, content, user_id)
+    return redirect("/report/" + str(report_id))
+
+@app.route("/new_reaction", methods=["POST"])
+def new_reaction():
+    emoji = request.form["emoji"]
+    report_id = request.form["report_id"]
+    user_id = session["user_id"]
+
+    forum.add_reaction(emoji, report_id, user_id)
     return redirect("/report/" + str(report_id))
 
 @app.route("/login", methods=["GET", "POST"])

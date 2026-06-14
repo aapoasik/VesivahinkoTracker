@@ -8,11 +8,28 @@ def get_reports():
     return db.query(sql)
 
 def get_report(report_id):
-    sql = "SELECT id, content, title FROM Reports WHERE id = ?"
+    sql = "SELECT id, content, sent_at, title, user_id FROM Reports WHERE id = ?"
     return db.query(sql, [report_id])[0]
+
+def get_reactions(report_id):
+    sql = """SELECT emoji, COUNT(user_id) AS reaction_count,
+             GROUP_CONCAT(user_id) AS user_ids
+             FROM Reactions WHERE report_id = ?
+             GROUP BY emoji"""
+    #print(db.query(sql, [report_id])[0])
+    try:
+        return db.query(sql, [report_id])
+    except IndexError:
+        return None
 
 def add_report(title, content, user_id):
     sql = "INSERT INTO Reports (title, content, user_id) VALUES (?, ?, ?)"
     db.execute(sql, [title, content, user_id])
     report_id = db.last_insert_id()
     return report_id
+
+def add_reaction(emoji, report_id, user_id):
+    sql = "INSERT INTO Reactions (emoji, report_id, user_id) VALUES (?, ?, ?)"
+    db.execute(sql, [emoji, report_id, user_id])
+    reaction_id = db.last_insert_id()
+    return reaction_id
