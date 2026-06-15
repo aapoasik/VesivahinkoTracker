@@ -8,12 +8,14 @@
   <h1>VesivahinkoTracker</h1>
   {% if session.user_id %}
   <p>
-    Olet kirjautunut nimellä {{ username[0] }}
+    Olet kirjautunut sisään nimellä {{ username[0] }}
   </p>
   <p>
     <a href="/logout">Kirjaudu ulos</a>
+    | <a href="/search">Haku</a>
   </p>
   <hr />
+
   <h2>Raportoi vesivahinko</h2>
 
   <form action="/new_report" method="post">
@@ -29,7 +31,9 @@
   </form>	
   {% else %}
   <p>
-    <a href="/login">Kirjaudu sisään</a> | <a href="/register">Luo käyttäjätili</a>
+    <a href="/login">Kirjaudu sisään</a>
+  | <a href="/register">Luo käyttäjätili</a> 
+  | <a href="/search">Haku</a>
   </p>
   {% endif %}
   

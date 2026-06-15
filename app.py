@@ -48,6 +48,12 @@ def register():
         except sqlite3.IntegrityError:
             return render_template("registered.html", result="Tämä käyttäjänimi on jo käytössä!", success=False)
 
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    results = forum.search(query) if query else []
+    return render_template("search.html", query=query, results=results)
+
 @app.route("/report/<int:report_id>")
 def show_report(report_id):
     try:

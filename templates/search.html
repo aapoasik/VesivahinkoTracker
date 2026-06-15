@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Haku</title>
+
+<body>
+  <h1>Haku</h1>
+
+  <form action="/search" method="get">
+    <p>
+      {% if query %}
+      <input type="text" name="query" value="{{ query }}" />
+      {% else %}
+      <input type="text" name="query" />
+      {% endif %}
+    </p>
+    <input type="submit" value="Hae" />
+  </form>
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
+
+  {% if query %}
+  <hr />
+  <h2>Tulokset</h2>
+  
+  <ul>
+  {% for result in results %}
+    <li>
+      <a href="/report/{{ result.report_id }}">
+        {{ result.report_title }}
+      </a>
+      <br />
+      {{ result.username }} ({{ result.sent_at }})
+    </li>
+  {% endfor %}
+  </ul>
+  {% endif %}
+
+</body>
+
+</html>

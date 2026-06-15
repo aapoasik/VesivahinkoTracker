@@ -1,5 +1,14 @@
 import db
 
+def search(query):
+    sql = """SELECT r.title report_title, r.id report_id,
+                    r.sent_at, u.username
+             FROM Reports r, Users u
+             WHERE u.id = r.user_id AND
+                   r.content LIKE ?
+             ORDER BY r.sent_at DESC"""
+    return db.query(sql, ["%" + query + "%"])
+
 def get_reports():
     sql = """SELECT r.id, r.title, u.username, COUNT(r.id) total, MAX(r.sent_at) last
              FROM Reports r
