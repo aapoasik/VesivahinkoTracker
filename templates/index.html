@@ -5,7 +5,7 @@
 </head>
 
 <body>
-  <h1>Etusivu</h1>
+  <h1>VesivahinkoTracker</h1>
   {% if session.user_id %}
   <p>
     Olet kirjautunut nimellä {{ username[0] }}
@@ -29,8 +29,7 @@
   </form>	
   {% else %}
   <p>
-    <a href="/login">Kirjaudu sisään</a> |
-    <a href="/register">Luo käyttäjätili</a>
+    <a href="/login">Kirjaudu sisään</a> | <a href="/register">Luo käyttäjätili</a>
   </p>
   {% endif %}
   

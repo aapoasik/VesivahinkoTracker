@@ -6,28 +6,27 @@
 </head>
 
 <body>
-  <h1>{{ report.title }}</h1>
-    <p>
+  <h2>{{ report.title }}</h2>
+  <p>
     Käyttäjältä {{ report.username }} | Raportoitu {{ report.sent_at }}
   </p>
   {% if report.user_id == session.user_id %}
   <p>
-    <a href="/edit/{{ report.id }}">Muokkaa</a>
-    <a href="/delete/{{ report.id }}">Poista</a>
+    <a href="/edit/{{ report.id }}">Muokkaa</a> | <a href="/delete/{{ report.id }}">Poista</a>
   </p>
   {% endif %}
   <hr />
   <p>
     {{ report.content }}
   </p>
-
+ 
   <hr /> 
   {% for reaction in reactions %}
   <p>
     {{ reaction.emoji[0] }} {{ reaction.reaction_count }}  
   </p>
   {% endfor %}
-  <hr />
+  <hr /> 
 
   {% if session.user_id %}
 
