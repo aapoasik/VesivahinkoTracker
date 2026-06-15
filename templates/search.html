@@ -28,11 +28,12 @@
   <ul>
   {% for result in results %}
     <li>
-      <a href="/report/{{ result.report_id }}">
+    <hr />
+      <strong><a href="/report/{{ result.report_id }}">
         {{ result.report_title }}
-      </a>
+      </a></strong>
       <br />
-      {{ result.username }} ({{ result.sent_at }})
+    <a href="/user/{{ result.user_id }}">{{ result.username }}</a> ({{ result.sent_at }})
     </li>
   {% endfor %}
   </ul>

@@ -54,6 +54,14 @@ def search():
     results = forum.search(query) if query else []
     return render_template("search.html", query=query, results=results)
 
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    reports = users.get_reports(user_id)
+    return render_template("profile.html", user=user, reports=reports)
+
 @app.route("/report/<int:report_id>")
 def show_report(report_id):
     try:

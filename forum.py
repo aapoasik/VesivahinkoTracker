@@ -2,7 +2,7 @@ import db
 
 def search(query):
     sql = """SELECT r.title report_title, r.id report_id,
-                    r.sent_at, u.username
+                    r.sent_at, u.username, u.id user_id
              FROM Reports r, Users u
              WHERE u.id = r.user_id AND
                    r.content LIKE ?
@@ -10,7 +10,8 @@ def search(query):
     return db.query(sql, ["%" + query + "%"])
 
 def get_reports():
-    sql = """SELECT r.id, r.title, u.username, COUNT(r.id) total, MAX(r.sent_at) last
+    sql = """SELECT r.id, r.title, u.username, u.id user_id,
+                    COUNT(r.id) total, MAX(r.sent_at) last
              FROM Reports r
              LEFT JOIN Users u ON r.user_id = u.id
              GROUP BY r.id, u.username

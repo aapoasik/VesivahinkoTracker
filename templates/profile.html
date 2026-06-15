@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title{{ user.username }}</title>
+</head>
+
+<body>
+  <h1>Käyttäjä {{ user.username }}</h1>
+  <p>  
+    <a href="/">Etusivulle</a>
+  </p>
+  <p>
+    Käyttäjä on tehnyt {{ reports | count }} raporttia
+  </p>
+  
+  {% if reports %}
+  <p>
+    Ensimmäinen raportti tehty {{ reports[-1].sent_at }}
+  </p>
+  <p>
+    Viimeisin raportti tehty {{ reports[0].sent_at }}
+  </p>  
+  {% else %}
+  <p>
+    Käyttäjä ei ole tehnyt yhtään raporttia
+  </p>
+  {% endif %}
+
+  <ul>
+  {% for report in reports %}
+    <li>
+    <hr />
+      <a href="/report/{{ report.report_id }}">
+        {{ report.title }}
+      </a>
+      <br />
+      ({{ report.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+
+</body>
+
+</html>

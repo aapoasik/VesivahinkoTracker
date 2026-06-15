@@ -8,7 +8,8 @@
 <body>
   <h2>{{ report.title }}</h2>
   <p>
-    Käyttäjältä {{ report.username }} | Raportoitu {{ report.sent_at }}
+    Käyttäjältä <a href="/user/{{ report.user_id }}">{{ report.username }}</a> 
+    | Raportoitu {{ report.sent_at }}
   </p>
   {% if report.user_id == session.user_id %}
   <p>

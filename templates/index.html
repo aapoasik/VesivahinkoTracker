@@ -40,9 +40,9 @@
   <hr />
   {% for report in reports %}
   <p>
-    <a href="/report/{{ report.id }}">{{ report.title }}</a>
+    <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
     <br />
-    {{ report.username }}
+    <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
     <br />
     Raportoitu {{ report.last }}
   </p>
