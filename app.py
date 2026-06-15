@@ -61,6 +61,20 @@ def edit_report(report_id):
         forum.update_report(report["id"], content)
         return redirect("/report/" + str(report_id))
 
+@app.route("/delete/<int:report_id>", methods=["GET", "POST"])
+def delete(report_id):
+    report = forum.get_report(report_id)
+
+    if request.method == "GET":
+        return render_template("delete.html", report=report)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            forum.delete_report(report["id"])
+            return redirect("/")
+        if "cancel" in request.form:
+            return redirect("/report/" + str(report_id))
+
 @app.route("/new_report", methods=["POST"])
 def new_report():
     title = request.form["title"]

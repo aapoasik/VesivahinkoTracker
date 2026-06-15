@@ -40,3 +40,9 @@ def add_reaction(emoji, report_id, user_id):
 def update_report(report_id, content):
     sql = "UPDATE Reports SET content = ? WHERE id = ?"
     db.execute(sql, [content, report_id])
+
+def delete_report(report_id):
+    sql_reactions = "DELETE FROM Reactions WHERE report_id = ?"
+    db.execute(sql_reactions, [report_id])
+    sql_report = "DELETE FROM Reports WHERE id = ?"
+    db.execute(sql_report, [report_id])

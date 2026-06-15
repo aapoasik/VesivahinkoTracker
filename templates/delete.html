@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poista raportti</title>
+</head>
+
+<body>
+  <form action="/delete/{{ report.id }}" method="post">
+    <p>
+      <strong>Ethän poista raportteja korjatuista vesivahingoista, vaan <a href="/edit/{{ report.id }}">merkitse ne korjatuiksi.</a></strong>
+    </p>
+    <p>
+      Oletko varma, että haluat poistaa tämän raportin? Poistettuja raportteja ei voi palauttaa!
+    </p>
+    <input type="submit" name="continue" value="Poista raportti" />
+    <input type="submit" name="cancel" value="Ei sittenkään" />
+  </form>
+
+</body>
