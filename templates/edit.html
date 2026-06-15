@@ -11,7 +11,7 @@
   <form action="/edit/{{ report.id }}" method="post">
     <p>
       Viesti:<br />
-      <textarea name="content" rows="5" cols="40">{{ report.content }}</textarea>
+      <textarea name="content" rows="5" cols="40" maxlength="2000">{{ report.content }}</textarea>
     </p>
     <input type="submit" value="Lähetä" />
   </form>
