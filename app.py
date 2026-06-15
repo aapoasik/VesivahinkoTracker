@@ -3,6 +3,10 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
 import sqlite3
+import datetime
+
+date_time_unformatted = datetime.datetime.now()
+date_time = date_time_unformatted.strftime("%d.%m.%Y, %H:%M")
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -62,8 +66,9 @@ def new_report():
     title = request.form["title"]
     content = request.form["content"]
     user_id = session["user_id"]
+    sent_at = date_time
 
-    report_id = forum.add_report(title, content, user_id)
+    report_id = forum.add_report(title, content, sent_at, user_id)
     return redirect("/report/" + str(report_id))
 
 @app.route("/new_reaction", methods=["POST"])

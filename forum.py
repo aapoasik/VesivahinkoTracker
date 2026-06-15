@@ -25,9 +25,9 @@ def get_reactions(report_id):
     except IndexError:
         return None
 
-def add_report(title, content, user_id):
-    sql = "INSERT INTO Reports (title, content, sent_at, user_id) VALUES (?, ?, datetime('now'), ?)"
-    db.execute(sql, [title, content, user_id])
+def add_report(title, content, sent_at, user_id):
+    sql = "INSERT INTO Reports (title, content, sent_at, user_id) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [title, content, sent_at, user_id])
     report_id = db.last_insert_id()
     return report_id
 
