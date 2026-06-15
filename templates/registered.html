@@ -5,8 +5,23 @@
 <title>{{ result }}</title>
 
 <body>
-  <p>{{ result }}</p>
-  <br />
+  {% if success == True %}
+  <p>
+    Käyttäjätili luotu!
+  </p>
+  <p>
+    <a href="/login">Kirjaudu sisään</a>
+  </p>
+  {% else %}
+  <p>
+    {{ result }}
+  </p>
+  <p>
+    <a href="/register">Yritä uudelleen</a>
+  </p>
+  {% endif %}
+  <hr />
+
   <a href="/">Etusivulle</a>
 </body>
 

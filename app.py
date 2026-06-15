@@ -6,7 +6,7 @@ import sqlite3
 import datetime
 
 date_time_unformatted = datetime.datetime.now()
-date_time = date_time_unformatted.strftime("%d.%m.%Y, %H:%M")
+date_time = date_time_unformatted.strftime("%d.%m.%Y klo %H:%M")
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -32,16 +32,16 @@ def register():
         password2 = request.form["password2"]
 
         if username == "":
-            return render_template("registered.html", result="Käyttäjänimi ei voi olla tyhjä!")
+            return render_template("registered.html", result="Käyttäjänimi ei voi olla tyhjä!", success=False)
         if password1 != password2:
-            return render_template("registered.html", result="Salasanat eivät täsmää!")
+            return render_template("registered.html", result="Salasanat eivät täsmää!", success=False)
         if password1 == "":
-            return render_template("registered.html", result="Salasana ei voi olla tyhjä!")
+            return render_template("registered.html", result="Salasana ei voi olla tyhjä!", success=False)
         try:
             users.create_user(username, password1)
-            return render_template("registered.html", result="Käyttäjätili luotu!")
+            return render_template("registered.html", result="Käyttäjätili luotu!", success=True)
         except sqlite3.IntegrityError:
-            return render_template("registered.html", result="Tämä käyttäjänimi on jo käytössä!")
+            return render_template("registered.html", result="Tämä käyttäjänimi on jo käytössä!", success=False)
 
 @app.route("/report/<int:report_id>")
 def show_report(report_id):
@@ -95,7 +95,7 @@ def login():
         session["user_id"] = user_id
         return redirect("/")
     else:
-        return "VIRHE: väärä käyttäjänimen ja salasanan yhdistelmä!"
+        return render_template("loggedin.html", result="Väärä käyttäjänimen ja salasanan yhdistelmä!")
 
 @app.route("/logout")
 def logout():
