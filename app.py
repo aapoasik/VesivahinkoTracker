@@ -32,16 +32,16 @@ def register():
         password2 = request.form["password2"]
 
         if username == "":
-            return "VIRHE: kelvoton käyttäjänimi; käyttäjänimi ei voi olla tyhjä!"
+            return render_template("registered.html", result="Käyttäjänimi ei voi olla tyhjä!")
         if password1 != password2:
-            return "VIRHE: salasanat eivät täsmää!"
+            return render_template("registered.html", result="Salasanat eivät täsmää!")
         if password1 == "":
-            return "VIRHE: kelvoton salasana; salasana ei voi olla tyhjä!"
+            return render_template("registered.html", result="Salasana ei voi olla tyhjä!")
         try:
             users.create_user(username, password1)
-            return "Käyttäjätili luotu!"
+            return render_template("registered.html", result="Käyttäjätili luotu!")
         except sqlite3.IntegrityError:
-            return "VIRHE: käyttäjänimi on jo käytössä!"
+            return render_template("registered.html", result="Tämä käyttäjänimi on jo käytössä!")
 
 @app.route("/report/<int:report_id>")
 def show_report(report_id):
