@@ -10,6 +10,12 @@
     <p>
     Käyttäjältä {{ report.username }} | Raportoitu {{ report.sent_at }}
   </p>
+  {% if report.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ report.id }}">Muokkaa</a>
+    <a href="/delete/{{ report.id }}">Poista</a>
+  </p>
+  {% endif %}
   <hr />
   <p>
     {{ report.content }}

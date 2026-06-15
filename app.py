@@ -58,8 +58,8 @@ def edit_report(report_id):
 
     if request.method == "POST":
         content = request.form["content"]
-        forum.update_report(report["report_id"], content)
-        return redirect("/report/" + str(report["report_id"]))
+        forum.update_report(report["id"], content)
+        return redirect("/report/" + str(report_id))
 
 @app.route("/new_report", methods=["POST"])
 def new_report():

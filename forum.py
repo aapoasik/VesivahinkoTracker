@@ -36,3 +36,7 @@ def add_reaction(emoji, report_id, user_id):
     db.execute(sql, [emoji, report_id, user_id])
     reaction_id = db.last_insert_id()
     return reaction_id
+
+def update_report(report_id, content):
+    sql = "UPDATE Reports SET content = ? WHERE id = ?"
+    db.execute(sql, [content, report_id])
