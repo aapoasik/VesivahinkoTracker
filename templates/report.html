@@ -10,6 +10,7 @@
     <p>
     Käyttäjältä {{ report.username }}
   </p>
+  <hr />
   <p>
     {{ report.content }}
   </p>
@@ -17,11 +18,12 @@
   <hr /> 
   {% for reaction in reactions %}
   <p>
-    {{ reaction.emoji[0] }} {{ reaction.reaction_count[1] }}
-  <br />
+    {{ reaction.emoji[0] }} {{ reaction.reaction_count }}  
   </p>
-  <hr />
   {% endfor %}
+  <hr />
+
+  {% if session.user_id %}
 
   <form action="/new_reaction" method="post">
     <p>
@@ -37,6 +39,8 @@
     </p>
   </form>
   <br />
+
+  {% endif %}
 
   <p>
     <a href="/">Etusivulle</a>

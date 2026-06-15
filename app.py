@@ -70,10 +70,12 @@ def new_report():
 def new_reaction():
     emoji = request.form["emoji"]
     report_id = request.form["report_id"]
-    user_id = session["user_id"]
-
-    forum.add_reaction(emoji, report_id, user_id)
-    return redirect("/report/" + str(report_id))
+    try:
+        user_id = session["user_id"]
+        forum.add_reaction(emoji, report_id, user_id)
+        return redirect("/report/" + str(report_id))
+    except KeyError:
+        return redirect("/report/" + str(report_id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

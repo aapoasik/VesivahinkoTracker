@@ -20,7 +20,6 @@ def get_reactions(report_id):
              GROUP_CONCAT(user_id) AS user_ids
              FROM Reactions WHERE report_id = ?
              GROUP BY emoji"""
-    #print(db.query(sql, [report_id])[0])
     try:
         return db.query(sql, [report_id])
     except IndexError:
