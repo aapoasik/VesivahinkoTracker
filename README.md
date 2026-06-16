@@ -15,7 +15,7 @@ Asenna Flask-kirjasto:
    ~~~ 
 	$ pip install flask
    ~~~
-Luo tietokantaan tarvittavat taulut:
+Luo tietokanta ja alusta siihen tarvittavat taulut:
    ~~~ 
   $ sqlite3 database.db < schema.sql
    ~~~ 
