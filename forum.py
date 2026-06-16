@@ -15,10 +15,16 @@ def search(query):
 
 def get_reports(page, page_size):
     sql = """SELECT r.id, r.title, u.username, u.id user_id,
-                    COUNT(r.id) total, MAX(r.sent_at) last
+                    COUNT(r.id) total, MAX(r.sent_at) last,
+             SUM(CASE WHEN e.emoji = '🌚' THEN 1 ELSE 0 END) AS moon_count,
+             SUM(CASE WHEN e.emoji = '🐳' THEN 1 ELSE 0 END) AS whale_count,
+             SUM(CASE WHEN e.emoji = '🗿' THEN 1 ELSE 0 END) AS moai_count,
+             SUM(CASE WHEN e.emoji = '😭' THEN 1 ELSE 0 END) AS crying_count,
+             SUM(CASE WHEN e.emoji = '🫠' THEN 1 ELSE 0 END) AS melting_count
              FROM Reports r
              LEFT JOIN Users u ON r.user_id = u.id
-             GROUP BY r.id, u.username
+             LEFT JOIN Reactions e on r.id = e.report_id
+             GROUP BY r.id, u.username, u.id
              ORDER BY r.id DESC
              LIMIT ? OFFSET ?"""
     limit = page_size
