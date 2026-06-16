@@ -1,5 +1,9 @@
 import db
 
+def report_count():
+    sql = "SELECT COUNT(*) FROM Reports"
+    return db.query(sql)[0][0]
+
 def search(query):
     sql = """SELECT r.title report_title, r.id report_id,
                     r.sent_at, u.username, u.id user_id
@@ -9,14 +13,17 @@ def search(query):
              ORDER BY r.sent_at DESC"""
     return db.query(sql, ["%" + query + "%"])
 
-def get_reports():
+def get_reports(page, page_size):
     sql = """SELECT r.id, r.title, u.username, u.id user_id,
                     COUNT(r.id) total, MAX(r.sent_at) last
              FROM Reports r
              LEFT JOIN Users u ON r.user_id = u.id
              GROUP BY r.id, u.username
-             ORDER BY r.id DESC"""
-    return db.query(sql)
+             ORDER BY r.id DESC
+             LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
 
 def get_report(report_id):
     sql = """SELECT r.id, r.content, r.sent_at, r.title, r.user_id, u.username

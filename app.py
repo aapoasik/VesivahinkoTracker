@@ -1,8 +1,8 @@
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, g, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
-import sqlite3, datetime, secrets
+import datetime, math, secrets, sqlite3, time
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -19,15 +19,36 @@ def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    elapsed_time = round(((time.time() - g.start_time) * 1000), 3)
+    print("elapsed time:", elapsed_time, "ms")
+    return response
+
 @app.route("/")
-def index():
-    reports = forum.get_reports()
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    report_count = forum.report_count()
+    page_count = math.ceil(report_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    reports = forum.get_reports(page, page_size)
     try:
         user_id = session["user_id"]
         username = users.get_username(user_id)
-        return render_template("index.html", reports=reports, username=username)
+        return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username)
     except KeyError:
-        return render_template("index.html", reports=reports)
+        return render_template("index.html", reports=reports, page=page, page_count=page_count)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
