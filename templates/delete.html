@@ -15,6 +15,7 @@
     <p>
       Oletko varma, että haluat poistaa tämän raportin? Poistettuja raportteja ei voi palauttaa!
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" name="continue" value="Poista raportti" />
     <input type="submit" name="cancel" value="Ei sittenkään" />
   </form>

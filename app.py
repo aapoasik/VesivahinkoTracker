@@ -2,8 +2,7 @@ from flask import Flask
 from flask import abort, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
-import sqlite3
-import datetime
+import sqlite3, datetime, secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -14,6 +13,10 @@ date_time = date_time_unformatted.strftime("%d.%m.%Y klo %H:%M")
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 @app.route("/")
@@ -74,6 +77,7 @@ def show_report(report_id):
 @app.route("/edit/<int:report_id>", methods=["GET", "POST"])
 def edit_report(report_id):
     require_login()
+
     report = forum.get_report(report_id)
     if report["user_id"] != session["user_id"]:
         abort(403)
@@ -82,6 +86,7 @@ def edit_report(report_id):
         return render_template("edit.html", report=report)
 
     if request.method == "POST":
+        check_csrf()
         content = request.form["content"]
         if len(content) > 2000:
             abort(403)
@@ -91,6 +96,7 @@ def edit_report(report_id):
 @app.route("/delete/<int:report_id>", methods=["GET", "POST"])
 def delete(report_id):
     require_login()
+
     report = forum.get_report(report_id)
     if report["user_id"] != session["user_id"]:
         abort(403)
@@ -99,6 +105,8 @@ def delete(report_id):
         return render_template("delete.html", report=report)
 
     if request.method == "POST":
+        check_csrf()
+
         if "continue" in request.form:
             forum.delete_report(report["id"])
             return redirect("/")
@@ -107,7 +115,9 @@ def delete(report_id):
 
 @app.route("/new_report", methods=["POST"])
 def new_report():
+    check_csrf()
     require_login()
+
     title = request.form["title"]
     content = request.form["content"]
     user_id = session["user_id"]
@@ -120,7 +130,9 @@ def new_report():
 
 @app.route("/new_reaction", methods=["POST"])
 def new_reaction():
+    check_csrf()
     require_login()
+
     report_id = request.form["report_id"]
     if "emoji" not in request.form:
         return redirect("/report/" + str(report_id))
@@ -149,6 +161,7 @@ def login():
     user_id = users.check_login(username, password)
     if user_id:
         session["user_id"] = user_id
+        session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
         return render_template("loggedin.html", result="Väärä käyttäjänimen ja salasanan yhdistelmä!")

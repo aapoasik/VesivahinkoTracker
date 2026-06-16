@@ -40,6 +40,7 @@
       <input type="radio" name="emoji" value="&#129760;" /> &#129760;  
     </p>
     <p>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
       <input type="hidden" name="report_id" value="{{ report.id }}" />
       <input type="submit" value="reagoi" />
     </p>
