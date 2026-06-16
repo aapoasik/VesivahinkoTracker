@@ -14,17 +14,19 @@ def search(query):
     return db.query(sql, ["%" + query + "%"])
 
 def get_reports(page, page_size):
-    sql = """SELECT r.id, r.title, u.username, u.id user_id,
-                    COUNT(r.id) total, MAX(r.sent_at) last,
-             SUM(CASE WHEN e.emoji = '🌚' THEN 1 ELSE 0 END) AS moon_count,
-             SUM(CASE WHEN e.emoji = '🐳' THEN 1 ELSE 0 END) AS whale_count,
-             SUM(CASE WHEN e.emoji = '🗿' THEN 1 ELSE 0 END) AS moai_count,
-             SUM(CASE WHEN e.emoji = '😭' THEN 1 ELSE 0 END) AS crying_count,
-             SUM(CASE WHEN e.emoji = '🫠' THEN 1 ELSE 0 END) AS melting_count
+    sql = """SELECT
+                r.id,
+                r.title,
+                u.username,
+                u.id AS user_id,
+                r.sent_at AS last_sent,
+                r.moon_count,
+                r.whale_count,
+                r.moai_count,
+                r.crying_count,
+                r.melting_count
              FROM Reports r
-             LEFT JOIN Users u ON r.user_id = u.id
-             LEFT JOIN Reactions e on r.id = e.report_id
-             GROUP BY r.id, u.username, u.id
+             JOIN Users u ON r.user_id = u.id
              ORDER BY r.id DESC
              LIMIT ? OFFSET ?"""
     limit = page_size
@@ -39,10 +41,14 @@ def get_report(report_id):
     return db.query(sql, [report_id])[0]
 
 def get_reactions(report_id):
-    sql = """SELECT emoji, COUNT(user_id) AS reaction_count,
-             GROUP_CONCAT(user_id) AS user_ids
-             FROM Reactions WHERE report_id = ?
-             GROUP BY emoji"""
+    sql = """SELECT
+                e.emoji_char AS emoji,
+                COUNT(a.user_id) AS reaction_count,
+                GROUP_CONCAT(a.user_id) AS user_ids
+             FROM Reactions a
+             JOIN Emojis e ON a.emoji_id = e.id
+             WHERE a.report_id = ?
+             GROUP BY e.emoji_char"""
     try:
         return db.query(sql, [report_id])
     except IndexError:
@@ -55,10 +61,23 @@ def add_report(title, content, sent_at, user_id):
     return report_id
 
 def add_reaction(emoji, report_id, user_id):
-    sql = "INSERT INTO Reactions (emoji, report_id, user_id) VALUES (?, ?, ?)"
-    db.execute(sql, [emoji, report_id, user_id])
-    reaction_id = db.last_insert_id()
-    return reaction_id
+    get_id_sql = "SELECT id FROM Emojis WHERE id = ?"
+    try:
+        result = db.query(get_id_sql, [emoji])
+        if not result:
+            raise ValueError(f"Invalid emoji: {emoji}")
+        emoji_id = result[0]['id']
+    except IndexError:
+        raise ValueError(f"Invalid emoji provided: {emoji}")
+
+    insert_sql = "INSERT INTO Reactions (report_id, user_id, emoji_id) VALUES (?, ?, ?)"
+    try:
+        db.execute(insert_sql, [report_id, user_id, emoji_id])
+        reaction_id = db.last_insert_id()
+        return reaction_id
+    except Exception as e:
+        print(f"Failed to add reaction, user may have already reacted: {e}")
+        return None
 
 def update_report(report_id, content):
     sql = "UPDATE Reports SET content = ? WHERE id = ?"

@@ -45,7 +45,7 @@ def index(page=1):
     reports = forum.get_reports(page, page_size)
     try:
         user_id = session["user_id"]
-        username = users.get_username(user_id)
+        username = users.get_user(user_id)
         return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username)
     except KeyError:
         return render_template("index.html", reports=reports, page=page, page_count=page_count)
@@ -158,7 +158,7 @@ def new_reaction():
     if "emoji" not in request.form:
         return redirect("/report/" + str(report_id))
     emoji = request.form["emoji"]
-    if emoji not in ["🌚", "🐳", "🗿", "😭", "🫠"]:
+    if emoji not in ["1", "2", "3", "4", "5"]:
         abort(403)
     try:
         user_id = session["user_id"]

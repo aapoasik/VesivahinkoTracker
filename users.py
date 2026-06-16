@@ -30,7 +30,3 @@ def get_reports(user_id):
              WHERE r.user_id = ?
              ORDER BY r.sent_at DESC"""
     return db.query(sql, [user_id])
-
-def get_username(id):
-    sql = "SELECT username FROM users WHERE id = ?"
-    return db.query(sql, [id])[0]
