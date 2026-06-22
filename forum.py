@@ -10,8 +10,10 @@ def search(query):
              FROM Reports r, Users u
              WHERE u.id = r.user_id AND
                    r.content LIKE ?
+                OR r.title LIKE ?
+                OR u.username LIKE ?
              ORDER BY r.sent_at DESC"""
-    return db.query(sql, ["%" + query + "%"])
+    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%"])
 
 def get_reports(page, page_size):
     sql = """SELECT
