@@ -20,7 +20,13 @@
   <p>
     {{ report.content }}
   </p>
- 
+
+  <p>
+    {% if report.has_image %}
+    <img src="/image/{{ report.id }}" />
+    {% endif %}
+  </p>
+
   <hr /> 
   {% for reaction in reactions %}
   <p>

@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import abort, g, redirect, render_template, request, session
+from flask import abort, g, make_response, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
 import datetime, math, secrets, sqlite3, time
@@ -49,6 +49,16 @@ def index(page=1):
         return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username)
     except KeyError:
         return render_template("index.html", reports=reports, page=page, page_count=page_count)
+
+@app.route("/image/<int:report_id>")
+def show_image(report_id):
+    image = forum.get_image(report_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -143,10 +153,18 @@ def new_report():
     content = request.form["content"]
     user_id = session["user_id"]
     sent_at = date_time
+
+    file = request.files["image"]
+    if not file.filename.endswith(".jpg"):
+        return "Väärä tiedostomuoto: lähetä JPEG-tiedosto!"
+    image = file.read()
+    if len(image) > 1000 * 1024:
+        return "Kuva on liian suuri: maksimikoko on 1 mt!"
+
     if not title or len(title) > 60 or len(content) > 2000:
         abort(403)
 
-    report_id = forum.add_report(title, content, sent_at, user_id)
+    report_id = forum.add_report(title, content, sent_at, image, user_id)
     return redirect("/report/" + str(report_id))
 
 @app.route("/new_reaction", methods=["POST"])

@@ -18,7 +18,7 @@
 
   <h2>Raportoi vesivahinko</h2>
 
-  <form action="/new_report" method="post">
+  <form action="/new_report" method="post" enctype="multipart/form-data">
     <p>
       Otsikko:<br />
       <input type="text" name="title" maxlength="60" required />
@@ -27,6 +27,10 @@
       Lisätiedot:<br />
       <textarea name="content" rows="5" cols="40" maxlength="2000"></textarea>
     </p>
+    <p>
+      Kuva: <input type="file" name="image" accept=".jpg" />
+    </p>
+
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
   </form>	
