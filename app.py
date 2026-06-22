@@ -210,19 +210,20 @@ date_time = date_time_unformatted.strftime("%d.%m.%Y klo %H:%M")
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", next_page=request.referrer)
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        next_page = request.form["next_page"]
 
     user_id = users.check_login(username, password)
     if user_id:
         session["user_id"] = user_id
         session["csrf_token"] = secrets.token_hex(16)
-        return redirect("/")
+        return redirect(next_page)
     else:
         flash("Väärä käyttäjänimen ja salasanan yhdistelmä!")
-        return redirect("/login")
+        return render_template("login.html", next_page=next_page)
 
 @app.route("/logout")
 def logout():

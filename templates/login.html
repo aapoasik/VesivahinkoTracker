@@ -15,6 +15,7 @@
   {% endfor %}
 
   <form action="/login" method="post">
+
     <p>
       Käyttäjänimi: <br />
       <input type="text" name="username" required />
@@ -23,7 +24,14 @@
       Salasana: <br />
       <input type="password" name="password" required />
     </p>
+
+    {% if next_page %}
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
+    {% else %}
+    <input type="hidden" name="next_page" value="/" />
+    {% endif %}
     <input type="submit" value="Kirjaudu" />
+
   </form>
 
   <br />
