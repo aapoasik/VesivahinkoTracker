@@ -11,10 +11,10 @@ def search(query):
                     u.username,
                     u.id user_id
              FROM Reports r, Users u
-             WHERE u.id = r.user_id AND
-                   r.content LIKE ?
-                OR r.title LIKE ?
-                OR u.username LIKE ?
+             WHERE u.id = r.user_id
+             AND (r.content LIKE ?
+             OR r.title LIKE ?
+             OR u.username LIKE ?)
              ORDER BY r.sent_at DESC"""
     return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%"])
 
