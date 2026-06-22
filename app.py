@@ -2,7 +2,7 @@ from flask import Flask
 from flask import abort, flash, g, make_response, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
-import datetime, math, secrets, sqlite3, time
+import datetime, markupsafe, math, secrets, sqlite3, time
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -18,6 +18,12 @@ def require_login():
 def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
+
+@app.template_filter()
+def line_breaks(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
 
 @app.before_request
 def before_request():
