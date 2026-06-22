@@ -8,18 +8,24 @@
 <body>
   <h1>Rekisteröi tili</h1>
 
+  {% for  message in get_flashed_messages() %}
+  <p>
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
   <form action="/register" method="post">
     <p>
       Käyttäjänimi: <br />
-      <input type="text" name="username" />
+      <input type="text" name="username" required />
     </p>
     <p>
       Salasana: <br />
-      <input type="password" name="password1" />
+      <input type="password" name="password1" required />
     </p>
     <p>
       Salasana uudestaan: <br />
-      <input type="password" name="password2" />
+      <input type="password" name="password2" required />
     </p>
     <input type="submit" value="Luo käyttäjätili" />
   </form>

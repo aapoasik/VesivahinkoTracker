@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import abort, g, make_response, redirect, render_template, request, session
+from flask import abort, flash, g, make_response, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config, forum, db, users
 import datetime, math, secrets, sqlite3, time
@@ -71,16 +71,25 @@ def register():
         password2 = request.form["password2"]
 
         if username == "":
-            return render_template("registered.html", result="Käyttäjänimi ei voi olla tyhjä!", success=False)
+            flash("Syötä käyttäjänimi!")
+            return redirect("/register")
+
         if password1 != password2:
-            return render_template("registered.html", result="Salasanat eivät täsmää!", success=False)
+            flash("Salasanat eivät täsmää!")
+            return redirect("/register")
+
         if password1 == "":
-            return render_template("registered.html", result="Salasana ei voi olla tyhjä!", success=False)
+            flash("Syötä salasana!")
+            return redirect("/register")
+
         try:
             users.create_user(username, password1)
-            return render_template("registered.html", result="Käyttäjätili luotu!", success=True)
+            flash("Käyttäjätili luotu!")
+            return redirect("/login")
+
         except sqlite3.IntegrityError:
-            return render_template("registered.html", result="Tämä käyttäjänimi on jo käytössä!", success=False)
+            flash("Tämä käyttäjänimi on jo käytössä!")
+            return redirect("/register")
 
 @app.route("/search")
 def search():
@@ -155,11 +164,14 @@ def new_report():
     sent_at = date_time
 
     file = request.files["image"]
-    if not file.filename.endswith(".jpg"):
-        return "Väärä tiedostomuoto: lähetä JPEG-tiedosto!"
+    if file and not file.filename.endswith(".jpg"):
+        flash("Kuva ei kelpaa; lähetä JPEG-tiedosto!")
+        return redirect("/")
+
     image = file.read()
     if len(image) > 1000 * 1024:
-        return "Kuva on liian suuri: maksimikoko on 1 mt!"
+        flash("Kuva on liian suuri; maksimikoko on 1 Mt!")
+        return redirect("/")
 
     if not title or len(title) > 60 or len(content) > 2000:
         abort(403)
@@ -203,7 +215,8 @@ def login():
         session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
     else:
-        return render_template("loggedin.html", result="Väärä käyttäjänimen ja salasanan yhdistelmä!")
+        flash("Väärä käyttäjänimen ja salasanan yhdistelmä!")
+        return redirect("/login")
 
 @app.route("/logout")
 def logout():
