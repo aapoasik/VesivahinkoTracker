@@ -3,9 +3,6 @@ CREATE TABLE Emojis (
     emoji_char TEXT UNIQUE NOT NULL
 );
 
-INSERT INTO Emojis (id, emoji_char)
-VALUES (1, '🌚'), (2, '🐳'), (3, '🗿'), (4, '😭'), (5, '🫠');
-
 CREATE TABLE Users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
@@ -16,8 +13,9 @@ CREATE TABLE Reports (
     id INTEGER PRIMARY KEY,
     content TEXT,
     sent_at TEXT NOT NULL,
-    title TEXT,
+    title TEXT NOT NULL,
     image BLOB,
+    location_id INTEGER NOT NULL REFERENCES Locations(id),
     user_id INTEGER NOT NULL REFERENCES Users(id),
 
     moon_count INTEGER DEFAULT 0,
@@ -25,6 +23,11 @@ CREATE TABLE Reports (
     moai_count INTEGER DEFAULT 0,
     crying_count INTEGER DEFAULT 0,
     melting_count INTEGER DEFAULT 0
+);
+
+CREATE TABLE Locations (
+     id INTEGER PRIMARY KEY,
+     value TEXT
 );
 
 CREATE TABLE Reactions (

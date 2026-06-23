@@ -9,19 +9,26 @@ def search(query):
                     r.id report_id,
                     r.sent_at,
                     u.username,
-                    u.id user_id
-             FROM Reports r, Users u
-             WHERE u.id = r.user_id
+                    l.value
+             FROM Reports r, Users u, Locations l
+             WHERE u.id = r.user_id AND l.id = r.location_id
              AND (r.content LIKE ?
              OR r.title LIKE ?
-             OR u.username LIKE ?)
+             OR u.username LIKE ?
+             OR l.value LIKE ?)
              ORDER BY r.sent_at DESC"""
-    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%"])
+    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"])
+
+def get_locations():
+    sql = "SELECT l.value, l.id FROM Locations l ORDER BY l.value"
+    return db.query(sql)
 
 def get_reports(page, page_size):
     sql = """SELECT r.id,
                     r.title,
                     u.username,
+                    l.value,
+                    r.location_id,
                     u.id AS user_id,
                     r.sent_at AS last_sent,
                     r.moon_count,
@@ -31,6 +38,7 @@ def get_reports(page, page_size):
                     r.melting_count
              FROM Reports r
              JOIN Users u ON r.user_id = u.id
+             JOIN Locations l ON r.location_id = l.id
              ORDER BY r.id DESC
              LIMIT ? OFFSET ?"""
     limit = page_size
@@ -40,12 +48,15 @@ def get_reports(page, page_size):
 def get_report(report_id):
     sql = """SELECT r.id,
                     r.content,
+                    r.location_id,
                     r.sent_at,
                     r.title,
                     r.image IS NOT NULL has_image,
                     r.user_id,
-                    u.username
+                    u.username,
+                    l.value
              FROM Reports r
+             JOIN Locations l ON r.location_id = l.id
              JOIN Users u ON r.user_id = u.id
              WHERE r.id = ?"""
     return db.query(sql, [report_id])[0]
@@ -68,9 +79,9 @@ def get_image(report_id):
     result = db.query(sql, [report_id])
     return result[0][0] if result else None
 
-def add_report(title, content, sent_at, image, user_id):
-    sql = "INSERT INTO Reports (title, content, sent_at, image, user_id) VALUES (?, ?, ?, ?, ?)"
-    db.execute(sql, [title, content, sent_at, image, user_id])
+def add_report(title, content, sent_at, image, user_id, location_id):
+    sql = "INSERT INTO Reports (title, content, sent_at, image, user_id, location_id) VALUES (?, ?, ?, ?, ?, ?)"
+    db.execute(sql, [title, content, sent_at, image, user_id, location_id])
     report_id = db.last_insert_id()
     return report_id
 

@@ -8,6 +8,9 @@
 <body>
   <h2>{{ report.title }}</h2>
   <p>
+    Sijainti: <strong>{{ report.value }}</strong>
+  </p>
+  <p>
     Käyttäjältä <a href="/user/{{ report.user_id }}">{{ report.username }}</a> 
     | Raportoitu {{ report.sent_at }}
   </p>

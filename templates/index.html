@@ -34,6 +34,14 @@
       <textarea name="content" rows="5" cols="40" maxlength="2000"></textarea>
     </p>
     <p>
+      Sijainti: 
+      <select name="location_id" id="location_id" required>
+        {% for location in locations %}
+         <option value="{{ location.id }}">{{ location.value }}</option>
+        {% endfor %}
+      </select>
+    </p>
+    <p>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
 
@@ -52,6 +60,8 @@
   {% for report in reports %}
   <p>
     <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
+    <br />
+    {{ report.value }}
     <br />
     <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
     <br />

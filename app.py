@@ -51,8 +51,9 @@ def index(page=1):
     reports = forum.get_reports(page, page_size)
     try:
         user_id = session["user_id"]
+        locations = forum.get_locations()
         username = users.get_user(user_id)
-        return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username)
+        return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username, locations=locations)
     except KeyError:
         return render_template("index.html", reports=reports, page=page, page_count=page_count)
 
@@ -167,6 +168,7 @@ def new_report():
     title = request.form["title"]
     content = request.form["content"]
     user_id = session["user_id"]
+    location_id = request.form["location_id"]
     sent_at = date_time
 
     file = request.files["image"]
@@ -182,7 +184,7 @@ def new_report():
     if not title or len(title) > 60 or len(content) > 2000:
         abort(403)
 
-    report_id = forum.add_report(title, content, sent_at, image, user_id)
+    report_id = forum.add_report(title, content, sent_at, image, user_id, location_id)
     return redirect("/report/" + str(report_id))
 
 @app.route("/new_reaction", methods=["POST"])
