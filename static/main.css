@@ -1,0 +1,66 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: skyblue;
+}
+
+.newreport {
+  border: 2px solid darkblue;
+  background-color: skyblue;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+.nav {
+  background-color: skyblue;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+nav {
+  text-align: center;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding: 0 1em;
+  margin: 0;
+}
+
+nav li:not(:last-of-type) {
+  border-right: 2px solid darkblue;
+}
+
+nav li:not(:first-of-type) {
+  margin-left: -0.25em;
+} 
+
+.header {
+  background-color: skyblue;
+  color: royalblue;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.content {
+  background-color: aliceblue;
+  padding: 1em;
+  margin: 0.5em 0.5em;
+}
+
+.report {
+  border: 2px solid darkblue;
+  background-color: skyblue;
+  padding: 0.2em 0.5em;
+  margin: 1em;
+}
+
+h1, h2 {
+  margin: 0;
+}

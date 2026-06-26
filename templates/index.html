@@ -1,28 +1,25 @@
 <!DOCTYPE html> <html>
 
-<head>
-  <title>Etusivu</title>
-</head>
+{% extends "layout.html" %}
 
-<body>
-  <h1>VesivahinkoTracker</h1>
-  {% if session.user_id %}
-  <p>
-    Olet kirjautunut sisään nimellä {{ username[0] }}
-  </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-    | <a href="/search">Haku</a>
-  </p>
-  <hr />
+{% block title %}VesivahinkoTracker{% endblock %}
 
-  <h2>Raportoi vesivahinko</h2>
+{% block content %}
+<h1>Etusivu</h1>
 
   {% for message in get_flashed_messages() %}
   <p>
     <b>{{ message }}</b>
   </p>
   {% endfor %}
+
+{% if session.user_id %}
+  <br />
+  Olet kirjautunut käyttäjänä {{ username[0] }}
+
+  <div class="newreport">
+
+  <h2>Raportoi vesivahinko</h2>
 
   <form action="/new_report" method="post" enctype="multipart/form-data">
     <p>
@@ -47,38 +44,34 @@
 
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
-  </form>	
-  {% else %}
-  <p>
-    <a href="/login">Kirjaudu sisään</a>
-  | <a href="/register">Luo käyttäjätili</a> 
-  | <a href="/search">Haku</a>
-  </p>
-  {% endif %}
+  </form>
+  </div>	
+{% endif %}
   
   <hr />
   {% for report in reports %}
-  <p>
-    <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
-    <br />
-    {{ report.value }}
-    <br />
-    <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
-    <br />
-    &#127770; {{ report.moon_count }}  &#128051; {{ report.whale_count }}  &#128511; {{ report.moai_count }}  &#128557; {{ report.crying_count }}  &#129760; {{ report.melting_count }}
-    <br />
-    Raportoitu {{ report.last_sent }}  
-  </p>
-  <hr />
+  <div class="report">
+    <p>
+      <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
+      <br />
+      {{ report.value }}
+      <br />
+      <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
+      <br />
+      &#127770; {{ report.moon_count }}  &#128051; {{ report.whale_count }}  &#128511; {{ report.moai_count }}  &#128557; {{ report.crying_count }}  &#129760; {{ report.melting_count }}
+      <br />
+      Raportoitu {{ report.last_sent }}  
+    </p>
+    <hr />
+  </div>
   {% endfor %}
 
-  <p>
-    <a href="/{{ page - 1 }}">&lt;&lt;</a>
-    Sivu {{ page }}/{{ page_count }}
-    <a href="/{{ page + 1 }}">&gt;&gt;</a>
-  </p>
-  <hr />
-
-</body>
-
-</html>
+  <div class="nav">
+    <p>
+      <a href="/{{ page - 1 }}">&lt;&lt;</a>
+      Sivu {{ page }}/{{ page_count }}
+      <a href="/{{ page + 1 }}">&gt;&gt;</a>
+    </p>
+    <hr />
+  </div>
+{% endblock %}
