@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Muokkaa raporttia</title>
-</head>
+{% block title %}Muokkaa raporttia{% endblock %}
 
-<body>
-  <h1>Muokkaa raporttia</h1>
+{% block pagetitle %}Muokkaa raporttia{% endblock %}
+
+{% block content %}
 
   <form action="/edit/{{ report.id }}" method="post">
     <p>
@@ -16,6 +14,5 @@
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
   </form>
-</body>
 
-</html>
+{% endblock %}

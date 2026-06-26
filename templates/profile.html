@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title{{ user.username }}</title>
-</head>
+{% block title %}Käyttäjä {{ user.username }}{% endblock %}
 
-<body>
-  <h1>Käyttäjä {{ user.username }}</h1>
+{% block pagetitle %}Käyttäjä {{ user.username }}{% endblock %}
+
+{% block content %}
   <p>  
     <a href="/">Etusivulle</a>
   </p>
@@ -40,6 +38,4 @@
   {% endfor %}
   </ul>
 
-</body>
-
-</html>
+{% endblock %}

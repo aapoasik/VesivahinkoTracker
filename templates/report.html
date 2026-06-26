@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ report.title }}</title>
-</head>
+{% block title %}{{ report.title }}{% endblock %}
 
-<body>
-  <h2>{{ report.title }}</h2>
+{% block pagetitle %}{{ report.html }}{% endblock %}
+
+{% block content %}
   <p>
     Sijainti: <strong>{{ report.value }}</strong>
   </p>
@@ -67,6 +65,5 @@
   <p>
     <a href="/">Etusivulle</a>
   </p>
-</body>
 
-</html>
+{% endblock %}

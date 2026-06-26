@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Poista raportti</title>
-</head>
+{% block title %}Poista raportti{% endblock %}
 
-<body>
-  <h1>Poista raportti</h1>
+{% block pagetitle %}Poista raportti{% endblock %}
+
+{% block content %}
 
   <form action="/delete/{{ report.id }}" method="post">
     <p>
@@ -20,4 +18,4 @@
     <input type="submit" name="cancel" value="Ei sittenkään" />
   </form>
 
-</body>
+{% endblock %}

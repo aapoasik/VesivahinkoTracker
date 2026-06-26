@@ -4,8 +4,9 @@
 
 {% block title %}VesivahinkoTracker{% endblock %}
 
+{% block pagetitle %}Etusivu{% endblock %}
+
 {% block content %}
-<h1>Etusivu</h1>
 
   {% for message in get_flashed_messages() %}
   <p>
@@ -48,7 +49,6 @@
   </div>	
 {% endif %}
   
-  <hr />
   {% for report in reports %}
   <div class="report">
     <p>

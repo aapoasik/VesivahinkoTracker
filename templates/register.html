@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Rekisteröi tili</title>
-</head>
+{% block title %}Rekisteröi tili{% endblock %}
 
-<body>
-  <h1>Rekisteröi tili</h1>
+{% block pagetitle %}Rekisteröi tili{% endblock %}
+
+{% block content %}
 
   {% for  message in get_flashed_messages() %}
   <p>
@@ -34,6 +32,5 @@
   Onko sinulla jo tili? <a href="/login">Kirjaudu sisään</a>
   <hr />
   <a href="/">Etusivulle</a>
-</body>
 
-</html>
+{% endblock %}
