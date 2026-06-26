@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import abort, flash, g, make_response, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-import config, forum, db, users
+import config, forum, db, re, users
 import datetime, markupsafe, math, secrets, sqlite3, time
 
 app = Flask(__name__)
@@ -222,6 +222,8 @@ def login():
     if user_id:
         session["user_id"] = user_id
         session["csrf_token"] = secrets.token_hex(16)
+        if re.findall("register$", next_page):
+            return redirect("/")
         return redirect(next_page)
     else:
         flash("Väärä käyttäjänimen ja salasanan yhdistelmä!")
