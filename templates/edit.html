@@ -8,8 +8,8 @@
 
   <form action="/edit/{{ report.id }}" method="post">
     <p>
-      Viesti:<br />
-      <textarea name="content" rows="5" cols="40" maxlength="2000">{{ report.content }}</textarea>
+      <label for="content">Viesti</label>:<br />
+      <textarea id="content" name="content" rows="5" cols="40" maxlength="2000">{{ report.content }}</textarea>
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />

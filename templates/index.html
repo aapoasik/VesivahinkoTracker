@@ -24,23 +24,24 @@
 
   <form action="/new_report" method="post" enctype="multipart/form-data">
     <p>
-      Otsikko:<br />
-      <input type="text" name="title" maxlength="60" required />
+      <label for="title">Otsikko</label>:<br />
+      <input id="title" type="text" name="title" maxlength="60" required />
     </p>
     <p>
-      Lisätiedot:<br />
-      <textarea name="content" rows="5" cols="40" maxlength="2000"></textarea>
+      <label for="content">Lisätiedot</label>:<br />
+      <textarea id="content" name="content" rows="5" cols="40" maxlength="2000"></textarea>
     </p>
     <p>
-      Sijainti: 
-      <select name="location_id" id="location_id" required>
+      <label for="location">Sijainti</label>: 
+      <select id="location" name="location_id" id="location_id" required>
         {% for location in locations %}
          <option value="{{ location.id }}">{{ location.value }}</option>
         {% endfor %}
       </select>
     </p>
     <p>
-      Kuva: <input type="file" name="image" accept=".jpg" />
+      <label for="image">Kuva</label>:
+      <input id="image" type="file" name="image" accept=".jpg" />
     </p>
 
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
