@@ -25,17 +25,14 @@
   </p>
   {% endif %}
 
-  <ul>
   {% for report in reports %}
-    <li>
-    <hr />
+  <div class="report">
       <a href="/report/{{ report.report_id }}">
         {{ report.title }}
       </a>
       <br />
-      ({{ report.sent_at }})
-    </li>  
+      ({{ report.sent_at }}) 
+  </div>
   {% endfor %}
-  </ul>
 
 {% endblock %}
