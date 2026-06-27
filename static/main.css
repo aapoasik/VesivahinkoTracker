@@ -6,6 +6,11 @@ body {
   background-color: skyblue;
 }
 
+.reportcontent {
+  word-wrap: break-word;
+  max-width: 55 em;
+}
+
 .specialtext {
   background-color: skyblue;
   padding: 0.25em;
@@ -43,6 +48,7 @@ img {
   padding: 0.5em;
   margin: 0.5em;
   margin-bottom: 1em;
+  word-wrap: break-word;
 }
 
 .newreport {
@@ -111,6 +117,7 @@ nav li:not(:first-of-type) {
   background-color: skyblue;
   padding: 0.2em 0.5em;
   margin: 1em;
+  word-wrap: break-word;
 }
 
 h1, h2 {

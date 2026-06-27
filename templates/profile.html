@@ -27,9 +27,9 @@
 
   {% for report in reports %}
   <div class="report">
-      <a href="/report/{{ report.report_id }}">
+      <strong><a href="/report/{{ report.report_id }}">
         {{ report.title }}
-      </a>
+      </a></strong>
       <br />
       ({{ report.sent_at }}) 
   </div>

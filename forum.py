@@ -9,7 +9,8 @@ def search(query):
                     r.id report_id,
                     r.sent_at,
                     u.username,
-                    l.value
+                    l.value,
+                    r.user_id
              FROM Reports r, Users u, Locations l
              WHERE u.id = r.user_id AND l.id = r.location_id
              AND (r.content LIKE ?

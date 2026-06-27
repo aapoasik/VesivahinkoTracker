@@ -2,7 +2,9 @@
 
 {% block title %}{{ report.title }}{% endblock %}
 
-{% block pagetitle %}{{ report.title }}{% endblock %}
+{% block pagetitle %}
+    {{ report.title }}
+{% endblock %}
 
 {% block content %}
   <div class="specialtext">
@@ -19,9 +21,13 @@
     </p>
     {% endif %}
   </div>
-  <p>
-    {{ report.content | line_breaks }}
-  </p>
+  
+  <div class="reportcontent">
+    <p>
+      {{ report.content | line_breaks }}
+    </p>  
+  </div>
+  
 
 {% if report.has_image %}
   <div class="img">
