@@ -77,6 +77,10 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
 
+        if len(username) > 30 or len(username) < 3:
+            flash("Käyttäjänimen tulee olla 3-30 merkkiä!")
+            return redirect("/register")
+
         if username == "":
             flash("Syötä käyttäjänimi!")
             return redirect("/register")
