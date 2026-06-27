@@ -14,6 +14,7 @@ CREATE TABLE Reports (
     content TEXT,
     sent_at TEXT NOT NULL,
     title TEXT NOT NULL,
+    alttext TEXT,
     image BLOB,
     location_id INTEGER NOT NULL REFERENCES Locations(id),
     user_id INTEGER NOT NULL REFERENCES Users(id),

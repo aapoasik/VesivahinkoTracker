@@ -43,6 +43,10 @@
       <label for="image">Kuva</label>:
       <input id="image" type="file" name="image" accept=".jpg" />
     </p>
+    <p>
+      <label for="alttext">(Alt text): kuvaile, mitä kuvassa on</label>:
+      <input id="alttext" type="text" name="alttext" maxlength="300" />
+    </p>
 
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />

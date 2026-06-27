@@ -15,9 +15,10 @@ def search(query):
              AND (r.content LIKE ?
              OR r.title LIKE ?
              OR u.username LIKE ?
-             OR l.value LIKE ?)
+             OR l.value LIKE ?
+             OR r.alttext LIKE ?)
              ORDER BY r.sent_at DESC"""
-    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"])
+    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"])
 
 def get_locations():
     sql = "SELECT l.value, l.id FROM Locations l ORDER BY l.value"
@@ -29,8 +30,8 @@ def get_reports(page, page_size):
                     u.username,
                     l.value,
                     r.location_id,
-                    u.id AS user_id,
-                    r.sent_at AS last_sent,
+                    u.id user_id,
+                    r.sent_at last_sent,
                     r.moon_count,
                     r.whale_count,
                     r.moai_count,
@@ -52,6 +53,7 @@ def get_report(report_id):
                     r.sent_at,
                     r.title,
                     r.image IS NOT NULL has_image,
+                    r.alttext,
                     r.user_id,
                     u.username,
                     l.value
@@ -79,9 +81,9 @@ def get_image(report_id):
     result = db.query(sql, [report_id])
     return result[0][0] if result else None
 
-def add_report(title, content, sent_at, image, user_id, location_id):
-    sql = "INSERT INTO Reports (title, content, sent_at, image, user_id, location_id) VALUES (?, ?, ?, ?, ?, ?)"
-    db.execute(sql, [title, content, sent_at, image, user_id, location_id])
+def add_report(title, content, sent_at, image, user_id, location_id, alttext):
+    sql = "INSERT INTO Reports (title, content, sent_at, image, user_id, location_id, alttext) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    db.execute(sql, [title, content, sent_at, image, user_id, location_id, alttext])
     report_id = db.last_insert_id()
     return report_id
 

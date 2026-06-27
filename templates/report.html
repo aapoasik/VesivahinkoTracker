@@ -26,7 +26,7 @@
 {% if report.has_image %}
   <div class="img">
     <p>
-      <img src="/image/{{ report.id }}" onerror="this.style.display='none'" />
+      <img src="/image/{{ report.id }}" alt="Kuva: {{ report.alttext }}" onerror="this.style.display='none'" />
     </p>
   </div>
 {% else %}

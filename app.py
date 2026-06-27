@@ -170,6 +170,7 @@ def new_report():
     user_id = session["user_id"]
     location_id = request.form["location_id"]
     sent_at = date_time
+    alttext = request.form["alttext"]
 
     file = request.files["image"]
     if file and not file.filename.endswith(".jpg"):
@@ -184,7 +185,7 @@ def new_report():
     if not title or len(title) > 60 or len(content) > 2000:
         abort(403)
 
-    report_id = forum.add_report(title, content, sent_at, image, user_id, location_id)
+    report_id = forum.add_report(title, content, sent_at, image, user_id, location_id, alttext)
     return redirect("/report/" + str(report_id))
 
 @app.route("/new_reaction", methods=["POST"])
