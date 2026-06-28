@@ -1,13 +1,22 @@
+import datetime
+import math
+import re
+import secrets
+import sqlite3
+import time
+
+import markupsafe
+
 from flask import Flask
 from flask import abort, flash, g, make_response, redirect, render_template, request, session
-from werkzeug.security import check_password_hash, generate_password_hash
-import config, forum, db, re, users
-import datetime, markupsafe, math, secrets, sqlite3, time
+
+import config
+import forum
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
-#fetch and format dates and times for timestamps
 date_time_unformatted = datetime.datetime.now()
 date_time = date_time_unformatted.strftime("%d.%m.%Y klo %H:%M")
 
@@ -53,7 +62,8 @@ def index(page=1):
         user_id = session["user_id"]
         locations = forum.get_locations()
         username = users.get_user(user_id)
-        return render_template("index.html", reports=reports, page=page, page_count=page_count, username=username, locations=locations)
+        return render_template("index.html", reports=reports, page=page, page_count=page_count,
+                               username=username, locations=locations)
     except KeyError:
         return render_template("index.html", reports=reports, page=page, page_count=page_count)
 
@@ -79,10 +89,6 @@ def register():
 
         if len(username) > 30 or len(username) < 3:
             flash("Käyttäjänimen tulee olla 3-30 merkkiä!")
-            return redirect("/register")
-
-        if username == "":
-            flash("Syötä käyttäjänimi!")
             return redirect("/register")
 
         if password1 != password2:
@@ -211,8 +217,6 @@ def new_reaction():
         abort(403)
     except KeyError:
         return redirect("/report/" + str(report_id))
-date_time_unformatted = datetime.datetime.now()
-date_time = date_time_unformatted.strftime("%d.%m.%Y klo %H:%M")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

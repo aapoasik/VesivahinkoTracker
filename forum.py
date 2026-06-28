@@ -19,7 +19,12 @@ def search(query):
              OR l.value LIKE ?
              OR r.alttext LIKE ?)
              ORDER BY r.sent_at DESC"""
-    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%", "%" + query + "%"])
+    return db.query(sql,
+                    ["%" + query + "%",
+                     "%" + query + "%",
+                     "%" + query + "%",
+                     "%" + query + "%",
+                     "%" + query + "%"])
 
 def get_locations():
     sql = "SELECT l.value, l.id FROM Locations l ORDER BY l.value"
@@ -83,7 +88,8 @@ def get_image(report_id):
     return result[0][0] if result else None
 
 def add_report(title, content, sent_at, image, user_id, location_id, alttext):
-    sql = "INSERT INTO Reports (title, content, sent_at, image, user_id, location_id, alttext) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    sql = """INSERT INTO Reports (title, content, sent_at, image, user_id, location_id, alttext)
+             VALUES (?, ?, ?, ?, ?, ?, ?)"""
     db.execute(sql, [title, content, sent_at, image, user_id, location_id, alttext])
     report_id = db.last_insert_id()
     return report_id
@@ -95,8 +101,8 @@ def add_reaction(emoji, report_id, user_id):
         if not result:
             raise ValueError(f"Invalid emoji: {emoji}")
         emoji_id = result[0]['id']
-    except IndexError:
-        raise ValueError(f"Invalid emoji provided: {emoji}")
+    except IndexError as exc:
+        raise ValueError(f"Invalid emoji provided: {emoji}") from exc
 
     insert_sql = "INSERT INTO Reactions (report_id, user_id, emoji_id) VALUES (?, ?, ?)"
     try:
