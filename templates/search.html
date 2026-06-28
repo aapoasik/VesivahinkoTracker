@@ -16,6 +16,7 @@
     </p>
     <input type="submit" value="Hae" />
   </form>
+
   <p>
     <a href="/">Etusivulle</a>
   </p>
@@ -26,13 +27,14 @@
   
   {% for result in results %}
     <div class="report">
-      <strong><a href="/report/{{ result.report_id }}">{{ result.report_title }}</a></strong>
-      <br />
-      {{ result.value }}
-      <br />
-      <a href="/user/{{ result.user_id }}">{{ result.username }}</a> ({{ result.sent_at }})
+    <strong><a href="/report/{{ result.report_id }}">{{ result.report_title }}</a></strong>
+    <br />
+    {{ result.value }}
+    <br />
+    <a href="/user/{{ result.user_id }}">{{ result.username }}</a> ({{ result.sent_at }})
     </div>
   {% endfor %}
+
   {% endif %}
 
 {% endblock %}

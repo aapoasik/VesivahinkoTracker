@@ -1,5 +1,3 @@
-<!DOCTYPE html> <html>
-
 {% extends "layout.html" %}
 
 {% block title %}VesivahinkoTracker{% endblock %}
@@ -14,7 +12,7 @@
   </p>
   {% endfor %}
 
-{% if session.user_id %}
+  {% if session.user_id %}
   <br />
   Olet kirjautunut käyttäjänä {{ username[0] }}
 
@@ -35,7 +33,7 @@
       <label for="location">Sijainti</label>: 
       <select id="location" name="location_id" id="location_id" required>
         {% for location in locations %}
-         <option value="{{ location.id }}">{{ location.value }}</option>
+          <option value="{{ location.id }}">{{ location.value }}</option>
         {% endfor %}
       </select>
     </p>
@@ -52,24 +50,23 @@
     <input type="submit" value="Lähetä" />
   </form>
   </div>	
-{% endif %}
+  {% endif %}
   
   {% for report in reports %}
   <div class="report">
-    <p>
-      <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
-      <br />
-      {{ report.value }}
-      <br />
-      <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
-      <br />
-      &#127770; {{ report.moon_count }}  &#128051; {{ report.whale_count }}  &#128511; {{ report.moai_count }}  &#128557; {{ report.crying_count }}  &#129760; {{ report.melting_count }}
-      <br />
-      Raportoitu {{ report.last_sent }}  
-    </p>
+  <p>
+    <strong><a href="/report/{{ report.id }}">{{ report.title }}</a></strong>
+    <br />
+    {{ report.value }}
+    <br />
+    <a href="/user/{{ report.user_id }}">{{ report.username }}</a>
+    <br />
+    &#127770; {{ report.moon_count }}  &#128051; {{ report.whale_count }}  &#128511; {{ report.moai_count }}  &#128557; {{ report.crying_count }}  &#129760; {{ report.melting_count }}
+    <br />
+    Raportoitu {{ report.last_sent }}  
+  </p>
   </div>
   {% endfor %}
-
 
   <div class="pagenav">
     <p>

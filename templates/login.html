@@ -13,24 +13,20 @@
   {% endfor %}
 
   <form action="/login" method="post">
-
     <p>
       <label for="username">Käyttäjänimi</label>: <br />
       <input id="username" type="text" name="username" required />
     </p>
-
     <p>
       <label for="password">Salasana</label>: <br />
       <input id="password" type="password" name="password" required />
     </p>
-
     {% if next_page %}
     <input type="hidden" name="next_page" value="{{ next_page }}" />
     {% else %}
     <input type="hidden" name="next_page" value="/" />
     {% endif %}
     <input type="submit" value="Kirjaudu" />
-
   </form>
 
   <br />

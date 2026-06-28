@@ -3,41 +3,41 @@
 {% block title %}{{ report.title }}{% endblock %}
 
 {% block pagetitle %}
-    {{ report.title }}
+  {{ report.title }}
 {% endblock %}
 
 {% block content %}
   <div class="specialtext">
-    <p>
-      Sijainti: <strong>{{ report.value }}</strong>
-    </p>
-    <p>
-      Käyttäjältä <a href="/user/{{ report.user_id }}">{{ report.username }}</a> 
-      | Raportoitu {{ report.sent_at }}
-    </p>
-    {% if report.user_id == session.user_id %}
-    <p>
-      <a href="/edit/{{ report.id }}">Muokkaa</a> | <a href="/delete/{{ report.id }}">Poista</a>
-    </p>
-    {% endif %}
+  <p>
+    Sijainti: <strong>{{ report.value }}</strong>
+  </p>
+  <p>
+    Käyttäjältä <a href="/user/{{ report.user_id }}">{{ report.username }}</a> 
+    | Raportoitu {{ report.sent_at }}
+  </p>
+  {% if report.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ report.id }}">Muokkaa</a> | <a href="/delete/{{ report.id }}">Poista</a>
+  </p>
+  {% endif %}
   </div>
   
   <div class="reportcontent">
-    <p>
-      {{ report.content | line_breaks }}
-    </p>  
+  <p>
+    {{ report.content | line_breaks }}
+  </p>  
   </div>
   
 
-{% if report.has_image %}
+  {% if report.has_image %}
   <div class="img">
-    <p>
-      <img src="/image/{{ report.id }}" alt="Kuva: {{ report.alttext }}" onerror="this.style.display='none'" />
-    </p>
+  <p>
+    <img src="/image/{{ report.id }}" alt="Kuva: {{ report.alttext }}" onerror="this.style.display='none'" />
+  </p>
   </div>
-{% else %}
+  {% else %}
   <br />
-{% endif %}
+  {% endif %}
 
   <div class="reactions">
     <ul>
@@ -69,15 +69,15 @@
 
   {% else %}
   <div class="specialtext">
-    <p>
-      <a href="/login">Kirjaudu sisään</a> reagoidaksesi.
-    </p>
+  <p>
+    <a href="/login">Kirjaudu sisään</a> reagoidaksesi
+  </p>
   </div>
   {% endif %}
 
   <div class="specialtext">
-    <p>
-      <a href="/">Etusivulle</a>
-    </p>
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
   </div>
 {% endblock %}

@@ -8,30 +8,30 @@
 
 <body>
   <div class="header">
-    <h1>VesivahinkoTracker</h1>
+  <h1>VesivahinkoTracker</h1>
   </div>
 
   <div class="nav">
-    <nav>
-      <ul>
-        <li><a href="/">Etusivu</a></li>
-        <li><a href="/search">Haku</a></li>
-        {% if session.user_id %}
-        <li><a href="/logout">Kirjaudu ulos</a></li>
-        {% else %}
-        <li><a href="/register">Luo tili</a></li>
-        <li><a href="/login">Kirjaudu sisään</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="/">Etusivu</a></li>
+      <li><a href="/search">Haku</a></li>
+      {% if session.user_id %}
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+      {% else %}
+      <li><a href="/register">Luo tili</a></li>
+      <li><a href="/login">Kirjaudu sisään</a></li>
+      {% endif %}
+    </ul>
+  </nav>
   </div>
 
   <div class="pagetitle">
-    <h2>{% block pagetitle %}{% endblock %}</h2>
+  <h2>{% block pagetitle %}{% endblock %}</h2>
   </div>
 
   <div class="content">
-    {% block content %}{% endblock %}
+  {% block content %}{% endblock %}
   </div>
 </body>
 
